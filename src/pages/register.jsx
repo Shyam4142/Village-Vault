@@ -33,8 +33,9 @@ export function Register() {
         ssn,
         dob,
         email,
-        checkingBalance: 100, 
-        savingsBalance: 100, 
+        checkingBalance: 100,
+        savingsBalance: 100,
+        authenticationTimes: [new Date().toISOString()]
       });
 
       navigate("/homepage"); 
@@ -134,5 +135,3 @@ export function Register() {
     </div>
   );
 }
-
-

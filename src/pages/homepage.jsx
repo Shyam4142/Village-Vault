@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { collection, getDocs, query, orderBy, limit, doc, getDoc } from "firebase/firestore";
-import { FaMoneyBillWave, FaPiggyBank, FaCreditCard, FaHistory, FaSignOutAlt, FaShieldAlt } from 'react-icons/fa';
+import { FaMoneyBillWave, FaPiggyBank, FaCreditCard, FaHistory, FaShieldAlt } from 'react-icons/fa';
 import { Navbar } from "../components/navbar";
 
 export function HomePage() {

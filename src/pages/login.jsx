@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate, Link } from "react-router-dom";;
-import { FaEnvelope, FaLock } from "react-icons/fa"; 
-import VillageBankLogo from "../assets/villagebank.jpeg"; 
+import { useNavigate, Link } from "react-router-dom";
+import { FaEnvelope, FaLock } from "react-icons/fa";
+import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+import VillageBankLogo from "../assets/villagebank.jpeg";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,13 @@ export function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userRef = doc(db, "users", userCredential.user.uid);
+
+      await updateDoc(userRef, {
+        authenticationTimes: arrayUnion(new Date().toISOString())
+      });
+
       navigate("/homepage");
     } catch (error) {
       console.error(error.message);
@@ -27,10 +34,10 @@ export function Login() {
           <img
             src={VillageBankLogo}
             alt="Village Bank Logo"
-            className="h-29 w-auto object-contain" 
+            className="h-29 w-auto object-contain"
           />
         </div>
-  
+
         <h1 className="text-2xl font-semibold text-center mb-6">Login</h1>
         <form onSubmit={handleLogin}>
           <div className="mb-4 relative">
@@ -88,5 +95,5 @@ export function Login() {
         </p>
       </div>
     </div>
-  );  
+  );
 }
